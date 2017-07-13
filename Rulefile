@@ -1,0 +1,22 @@
+LIBS=-lfl
+CPPFLAGS=-std=c++11 -Isrc/ -Igen/
+
+glslc => all
+
+generated: gen/.* obj/.* dep/.* glslc
+
+depfiles .*\.d
+
+.*\.o => glslc
+  g++ -o $@ $^ $(LIBS)
+
+src/(.*)\.y => gen/\1.cpp gen/\1.hpp
+  bison --defines=gen/\1.hpp -o gen/\1.cpp $^
+
+src/(.*)\.l => gen/\1.cpp
+  flex -o $@ $^
+
+(?:src|gen)/(.*)\.cpp => obj/\1.o obj/\1.d
+  g++ $(CPPFLAGS) -g -c -o $@ $^ -MMD -MF dep/\1.d
+
+

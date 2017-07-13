@@ -1,0 +1,18 @@
+  NExpression,
+
+
+vec4(vec4) =>
+return a
+vec4(vec2, float, float) =>
+return a.xy00 | b.00x0 | c.000x
+
+vec4(vec3, float) =>
+  return a.xyz0 | b.000x
+vec4(vec2, vec2) =>
+  return a.xy00 | b.00xy
+
+
+
+optimization:
+- shuffle(shuffle) => shuffle
+
